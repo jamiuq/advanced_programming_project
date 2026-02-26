@@ -9,8 +9,7 @@ class Main
         spellChecker sp = new spellChecker();
         System.out.print("\nPlease enter a sentence to be spell-checked: ");
         Scanner input = new Scanner(System.in);
-        String sentence = input.nextLine();
-        sp.checkSentence(sentence);
-//        sp.checkSentence("Helo, my friond. Hw are yuo diong tdoay?");
+        String sentence = input.nextLine(); // take input
+        sp.checkSentence(sentence); // check sentence and print results
     }
 }

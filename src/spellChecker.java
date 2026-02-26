@@ -22,7 +22,7 @@ public class spellChecker
             throw new RuntimeException(e);
         }
 
-        while (fileReader.hasNextLine())
+        while (fileReader.hasNextLine()) // loop through all lines and add words to arraylist
         {
             String nextWord = fileReader.nextLine();
             words.add(nextWord);
@@ -30,7 +30,7 @@ public class spellChecker
 
     }
 
-    private int binarySearchWords(String needle, int l, int r)
+    private int binarySearchWords(String needle, int l, int r) // alphabetic binary search, pretty self-explanatory
     {
         int mid = (l + r) / 2;
         String compareString = words.get(mid);
@@ -44,7 +44,7 @@ public class spellChecker
         return -1;
     }
 
-    private int getDist(String s1, String s2, int a, int b)
+    private int getDist(String s1, String s2, int a, int b) // Levenshtain Distance Algorithm, I used the geeksforgeeks tutorial so my code here looks similar to theirs
     {
         if (a == 0) {
             return b;
@@ -74,7 +74,7 @@ public class spellChecker
 
         int numErrors = 0;
 
-        for (String sentenceWord : sentenceWords) // remove non-alphabetical characters
+        for (String sentenceWord : sentenceWords) // loop through sentence
         {
 
             sentenceWord = sentenceWord.replaceAll("[^\\p{Alpha}]", ""); // get rid of all special symbols
@@ -85,19 +85,19 @@ public class spellChecker
 
             // find closest word
             int closestIndex = 0;
-            int closestCompValue = getDist(sentenceWord, words.getFirst(), sentenceWord.length(), words.getFirst().length());
+            int closestCompValue = getDist(sentenceWord, words.getFirst(), sentenceWord.length(), words.getFirst().length()); // initialize comparison variables
             for (int i = 1; i < words.size(); i++)
             {
-                String thisWord = words.get(i);
-                if (Math.abs(thisWord.length() - sentenceWord.length()) > 2) continue;
-                int localCompValue = getDist(sentenceWord, thisWord, sentenceWord.length(), thisWord.length());
-                if (localCompValue < closestCompValue) {
+                String thisWord = words.get(i); // current iteration word
+                if (Math.abs(thisWord.length() - sentenceWord.length()) > 2) continue; // if the length difference is too great, don't bother running the algorithm. this saves time.
+                int localCompValue = getDist(sentenceWord, thisWord, sentenceWord.length(), thisWord.length()); // comparison result
+                if (localCompValue < closestCompValue) { // if more similar than current most similar, then replace variables
                     closestIndex = i;
                     closestCompValue = localCompValue;
                 }
             }
 
-            if (sentenceWord.equals(words.get(closestIndex))) {continue;}
+            if (sentenceWord.equals(words.get(closestIndex))) {continue;} // just as a backup measure. i don't think this is absolutely necessary
 
             System.out.println(sentenceWord + "? Did you mean: " + words.get(closestIndex));
             numErrors++;
