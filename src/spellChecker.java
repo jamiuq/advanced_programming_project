@@ -81,6 +81,30 @@ public class spellChecker
             int searchResult = binarySearchWords(sentenceWord, 0, words.size() - 1); // search wordlist for word
             if (searchResult != -1) continue; // word found in wordlist, move on.
 
+
+            /*                                    Remove Double Characters                                                */
+
+            StringBuilder fixedWord = new StringBuilder("" + sentenceWord.charAt(0));
+
+            for (int i = 1; i < sentenceWord.length(); i++)
+            {
+                if (sentenceWord.charAt(i - 1) == sentenceWord.charAt(i)) continue; // double found, skip
+                fixedWord.append(sentenceWord.charAt(i));
+            }
+
+            String fixedWordString = fixedWord.toString(); // convert to string
+            searchResult = binarySearchWords(fixedWordString, 0, words.size() - 1); // try to find in wordlist
+            if (searchResult != -1) // found in wordlist
+            {
+                System.out.println(sentenceWord + "?? Did you mean: " + fixedWordString);
+                numErrors++;
+                continue;
+            }
+
+
+
+            /*                        Use Levenshtain Distance Algorithm [WORST CASE, VERY SLOW]                          */
+
             // find closest word
             int closestIndex = 0;
             int closestCompValue = getDist(sentenceWord, words.getFirst(), sentenceWord.length(), words.getFirst().length()); // initialize comparison variables
