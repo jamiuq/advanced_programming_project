@@ -1,9 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.nio.file.Paths;
 
 public class spellChecker
 {
